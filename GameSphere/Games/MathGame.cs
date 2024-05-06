@@ -22,21 +22,109 @@ namespace GameSphere.Games
             }
         }
 
-        public void NumberValidation(int input)
+        public void NumberValidation(int input, int numOfOptions)
         {
             //This checks if a user has input a number that isn't between 1-4.
             string operationSelectionInput;
             bool operationSelectionBool;
-            while (input < 1 || input > 4)
+            while (input < 1 || input > numOfOptions)
             {
                 Console.WriteLine("Error! Your input does not correspond to an option. Please select a value between 1-4.");
                 operationSelectionInput = Console.ReadLine();
                 operationSelectionBool = int.TryParse(operationSelectionInput, out input);
             }
 
-            if (input <= 4 || input >= 1)
+            if (input <= numOfOptions || input >= 1)
             {
                 Console.WriteLine($"You have selected option {input}");
+            }
+        }
+
+        public int NumberGenerator(int difficulty)
+        {
+            Random random = new Random();
+            int randomNum1;
+            switch (difficulty)
+            {
+                case 1:
+                    randomNum1 = random.Next(0,10);
+                    break;
+                case 2:
+                    randomNum1 = random.Next(9,100);
+                    break;
+                case 3:
+                    randomNum1 = random.Next(99, 1000);
+                    break;
+                default:
+                    Console.WriteLine("Invalid selection!");
+                    randomNum1 = 0;
+                    break;
+            }
+
+            return randomNum1;
+        }
+
+        public void ArithmeticGame(int numOne, int numTwo, int operation, int numOfQuestions)
+        {
+            int playerAnswer;
+            int correctAnswerAdd = numOne + numTwo;
+            int correctAnswerSub = numOne - numTwo;
+            int correctAnswerMulti = numOne * numTwo;
+            int correctAnswerDiv = 0;
+
+            for (int i = 0; i < numOfQuestions; i++)
+            {
+                switch (operation)
+                {
+                    case 1:
+                        Console.WriteLine($"Question #{i}: What is {numOne} + {numTwo}?");
+                        playerAnswer = int.Parse(Console.ReadLine());
+                        if (playerAnswer == correctAnswerAdd)
+                        {
+                            Console.WriteLine("Congrats! You got the answer correct!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Sorry! Your answer is incorrect. The correct answer is {correctAnswerAdd}.");
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine($"Question #{i}: What is {numOne} - {numTwo}?");
+                        playerAnswer = int.Parse(Console.ReadLine());
+                        if (playerAnswer == correctAnswerSub)
+                        {
+                            Console.WriteLine("Congrats! You got the answer correct!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Sorry! Your answer is incorrect. The correct answer is {correctAnswerSub}.");
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine($"Question #{i}: What is {numOne} * {numTwo}?");
+                        playerAnswer = int.Parse(Console.ReadLine());
+                        if (playerAnswer == correctAnswerMulti)
+                        {
+                            Console.WriteLine("Congrats! You got the answer correct!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Sorry! Your answer is incorrect. The correct answer is {correctAnswerMulti}.");
+                        }
+                        break;
+                    case 4:
+                        Console.WriteLine($"Question #{i}: What is {numOne} / {numTwo}?");
+                        playerAnswer = int.Parse(Console.ReadLine());
+                        if (playerAnswer == correctAnswerDiv)
+                        {
+                            Console.WriteLine("Congrats! You got the answer correct!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Sorry! Your answer is incorrect. The correct answer is {correctAnswerDiv}.");
+                        }
+                        break;
+                }
             }
         }
 
@@ -49,14 +137,24 @@ namespace GameSphere.Games
             bool operationSelectionBool = int.TryParse(operationSelectionInput, out operationSelection );
 
             InputValidation(operationSelectionBool, "Error! Invalid selection. Please input a value between 1-4.");
-            NumberValidation(operationSelection);
+            NumberValidation(operationSelection, 4);
 
             Console.WriteLine("Please select a difficulty: \n\n1.Easy\n2.Medium\n3.Hard");
             string difficultySelectionInput = Console.ReadLine();
             int difficultySelection;
             bool difficultySelectionBool = int.TryParse(difficultySelectionInput, out difficultySelection);
 
+            InputValidation(difficultySelectionBool, "Error! Invalid selection! Please input a value between 1-3.");
+            NumberValidation(difficultySelection, 3);
 
+            Console.WriteLine("How many questions would you like to answer?");
+            string numOfQuestionsInput = Console.ReadLine();
+            int numOfQuestionsInt;
+            bool numOfQuestionsBool = int.TryParse(numOfQuestionsInput, out numOfQuestionsInt);
+
+            InputValidation(numOfQuestionsBool, "Error! Invalid selection! Please input a value between 1-3.");
+
+            ArithmeticGame(NumberGenerator(difficultySelection), NumberGenerator(difficultySelection), operationSelection, numOfQuestionsInt);
 
         }
     }
