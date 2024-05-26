@@ -64,16 +64,22 @@ namespace GameSphere.Games
             return randomNum1;
         }
 
-        public void ArithmeticGame(int numOne, int numTwo, int operation, int numOfQuestions)
+        public void ArithmeticGame( int operation, int numOfQuestions, int difficulty)
         {
+            int numOne;
+            int numTwo;
             int playerAnswer;
-            int correctAnswerAdd = numOne + numTwo;
-            int correctAnswerSub = numOne - numTwo;
-            int correctAnswerMulti = numOne * numTwo;
-            int correctAnswerDiv = 0;
+
+             
 
             for (int i = 0; i < numOfQuestions; i++)
             {
+                numOne = NumberGenerator(difficulty);
+                numTwo = NumberGenerator(difficulty);
+                int correctAnswerAdd = numOne + numTwo;
+                int correctAnswerSub = 1;
+                int correctAnswerMulti = 1;
+                int correctAnswerDiv = 1; 
                 switch (operation)
                 {
                     case 1:
@@ -81,7 +87,8 @@ namespace GameSphere.Games
                         playerAnswer = int.Parse(Console.ReadLine());
                         if (playerAnswer == correctAnswerAdd)
                         {
-                            Console.WriteLine("Congrats! You got the answer correct!");
+                            Console.WriteLine("Congrats! You got the answer correct!"); 
+
                         }
                         else
                         {
@@ -154,7 +161,7 @@ namespace GameSphere.Games
 
             InputValidation(numOfQuestionsBool, "Error! Invalid selection! Please input a value between 1-3.");
 
-            ArithmeticGame(NumberGenerator(difficultySelection), NumberGenerator(difficultySelection), operationSelection, numOfQuestionsInt);
+            ArithmeticGame( operationSelection, numOfQuestionsInt, difficultySelection);
 
         }
     }
